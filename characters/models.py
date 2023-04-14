@@ -30,7 +30,7 @@ class Character(models.Model):
     current_exp = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     current_health = models.IntegerField(default=30)
     current_corruption = models.IntegerField(default=10)
-    attributes = models.ManyToManyField(Attribute, through="CharAttributes")        
+    attributes = models.ManyToManyField(Attribute, through="CharAttribute")        
 
     def __str__(self):
         return self.name
@@ -43,20 +43,30 @@ class Character(models.Model):
     
 
 class CharAttribute(models.Model):
-    character = models.ForeignKey(Character, on_delete=models.CASCADE, primary_key=True)
-    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, primary_key=True)
-    value = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
+    value = models.IntegerField(validators=[MinValueValidator(1)], default=10)
 
     def __str__(self):
         return self.character + self.attribute
     
+    class Meta:
+        constraints =[
+            models.UniqueConstraint(fields=['character', 'attribute'], name='unique_attribute')
+        ]
+    
     
 
 class CharActiveSkill(models.Model):
-    character = models.models.ForeignKey(Character, on_delete=models.CASCADE, primary_key=True)
-    active_skill = models.models.ForeignKey(ActiveSkill, on_delete=models.CASCADE, primary_key=True)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    active_skill = models.ForeignKey(ActiveSkill, on_delete=models.CASCADE)
     allocated_points = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], 
                                       default=0)
     
     def __str__(self):
         return self.character + self.active_skill
+    
+    class Meta:
+        constraints =[
+            models.UniqueConstraint(fields=['character', 'active_skill'], name='unique_active_skill')
+        ]
