@@ -17,11 +17,14 @@ class Attribute(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.pk:           
+        
+        if not self.pk:  
+            super().save(*args, **kwargs)         
             characters = Character.objects.all()
             for character in characters:
                 character.attributes.add(self)
+        else:
+            super().save(*args, **kwargs)
     
 
 class Character(models.Model):
@@ -36,10 +39,13 @@ class Character(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.pk:
+        
+        if not self.pk:   
+            super().save(*args, **kwargs)         
             attributes = Attribute.objects.all()
-            self.attributes.add(*attributes) 
+            self.attributes.add(*attributes)             
+        else: 
+            super().save(*args, **kwargs)
     
 
 class CharAttribute(models.Model):
@@ -48,7 +54,7 @@ class CharAttribute(models.Model):
     value = models.IntegerField(validators=[MinValueValidator(1)], default=10)
 
     def __str__(self):
-        return self.character + self.attribute
+        return self.character.name + " " + self.attribute.name
     
     class Meta:
         constraints =[
