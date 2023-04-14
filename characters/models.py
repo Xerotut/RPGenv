@@ -12,7 +12,7 @@ class ActiveSkill(models.Model):
     
 
 class Attribute(models.Model):
-    name = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
+    name = models.IntegerField(validators=[MinValueValidator(1)], default=10)
 
 class Character(models.Model):
     name = models.CharField(max_length=255, blank=True)
@@ -23,13 +23,10 @@ class Character(models.Model):
 
 class Attributes(models.Model):
     character = models.OneToOneField(Character, on_delete=models.CASCADE, primary_key=True)
-    strength = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
-    dexterity = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
-    constitution = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
-    wisdom = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
-    intelligence = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
-    charisma = models.IntegerField(alidators=[MinValueValidator(1)], default=10)
+    strength = models.IntegerField(validators=[MinValueValidator(1)], default=10)
+    dexterity = models.IntegerField(validators=[MinValueValidator(1)], default=10)
+    constitution = models.IntegerField(validators=[MinValueValidator(1)], default=10)
+    wisdom = models.IntegerField(validators=[MinValueValidator(1)], default=10)
+    intelligence = models.IntegerField(validators=[MinValueValidator(1)], default=10)
+    charisma = models.IntegerField(validators=[MinValueValidator(1)], default=10)
 
-class CharActiveSkill(models.Model):
-    character = models.models.ForeignKey(Character, on_delete=models.CASCADE, primary_key=True)
-    active_skill = models.models.ForeignKey(ActiveSkill, on_delete=models.CASCADE, primary_key=True)
