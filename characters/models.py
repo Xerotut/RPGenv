@@ -28,9 +28,9 @@ class Attribute(models.Model):
     
 
 class Character(models.Model):
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, default= "New character")
     level = models.IntegerField(validators=[MinValueValidator(1)], default=1)
-    current_exp = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+    current_exp = models.IntegerField("Current experience",validators=[MinValueValidator(0)], default=0)
     current_health = models.IntegerField(default=30)
     current_corruption = models.IntegerField(default=10)
     attributes = models.ManyToManyField(Attribute, through="CharAttribute")        
