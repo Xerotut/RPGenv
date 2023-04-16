@@ -42,7 +42,6 @@ class FlawAdmin(admin.ModelAdmin):
 admin.site.register(Character, CharacterAdmin)
 admin.site.register(Attribute)
 admin.site.register(Skill)
-admin.site.register(CharSkill)
 admin.site.register(Flaw, FlawAdmin)
 
 
