@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <h1>List of characters</h1>
+</head>
+
+<body>
+    <ul>
+        {% for character in characters %}
+        <li><a href={% url 'characters:character_sheet' character.id%}>{{character.name}}</a></li>
+        {% endfor %}
+    </ul>    
+</body>
+
+</html>

@@ -100,7 +100,7 @@ class Character(models.Model):
     current_corruption = models.IntegerField(default=10)
     attributes = models.ManyToManyField(Attribute, through="CharAttribute")        
     skills = models.ManyToManyField(Skill, through="CharSkill")        
-    flaw = models.ForeignKey(Flaw,null=True, on_delete=models.SET_NULL)
+    flaw = models.ForeignKey(Flaw,null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name

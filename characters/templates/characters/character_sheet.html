@@ -1,0 +1,49 @@
+<html>
+
+
+<head>
+    <h1>{{character.name}}</h1>
+</head>
+
+<body>
+
+    <form action="" method="post">
+        <div class="basic info">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id=name value={{character.name}}></input>
+        </div>
+        <div class="basic info">
+            <label for="name">Level:</label>
+            <input type="number" name="name" id=name value={{character.level}}></input>
+            <label for="name">Experience:</label>
+            <input type="number" name="name" id=name value={{character.current_exp}}></input>
+        </div>
+        <div class="attributes">
+            <ul>
+                {%for attribute in character.charattribute_set.all%}
+                <li>
+                    <label for="name">{{attribute.attribute.name}}:</label>
+                    <input type="number" name="name" id=name value={{attribute.value}}></input>
+                </li>
+                {%endfor%}
+
+            </ul>
+        </div>
+
+        <div class="skills">
+            <ul>
+                {%for skill in character.charskill_set.all%}
+                <li>
+                    <label for="name">{{skill.skill.name}}:</label>
+                    <input type="number" name="name" id=name value={{skill.value}}></input>
+                </li>
+                {%endfor%}
+
+            </ul>
+        </div>
+    </form>
+
+
+</body>
+
+</html>
