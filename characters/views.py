@@ -15,7 +15,6 @@ class CharIndexView(generic.ListView):
     def get_queryset(self):
         return Character.objects.all()
     
-
-def character_sheet(request, character_id):
-    character = get_object_or_404(Character, pk= character_id)    
-    return render(request, "characters/character_sheet.html", {"character": character})
+class CharSheetView(generic.DetailView):
+    model = Character
+    template_name = "characters/character_sheet.html"
