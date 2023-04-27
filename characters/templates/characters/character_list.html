@@ -2,15 +2,21 @@
 <html>
 
 <head>
-    <h1>List of characters</h1>
+    {%load static%}
+    <link rel="stylesheet" href={% static "characters/style.css" %}>
 </head>
 
 <body>
-    <ul>
-        {% for character in characters %}
-        <li><a href={% url 'characters:character_sheet' character.id%}>{{character.name}}</a></li>
-        {% endfor %}
-    </ul>    
+    <header>
+        <h1>List of characters</h1>
+    </header>
+    <section>
+        <ul>
+            {% for character in characters %}
+            <li><a href={% url 'characters:character_sheet' character.id %}>{{character.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
 </body>
 
 </html>
