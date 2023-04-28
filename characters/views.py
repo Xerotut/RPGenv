@@ -27,8 +27,7 @@ def save_character(request, character_id):
     character.name = request.POST['character_name']
     character.level = request.POST['character_level']
     character.current_exp = request.POST['character_exp']
-    for attribute in character.charattribute_set.all(): 
-        print(attribute.value)       
+    for attribute in character.charattribute_set.all():        
         attribute.value = request.POST[str(attribute.attribute.name)]
         attribute.save()
     for skill in character.charskill_set.all():
