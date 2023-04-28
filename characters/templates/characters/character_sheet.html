@@ -7,7 +7,7 @@
 
 <body>
 
-    <form action="" method="post">
+    <form action="{% url 'characters:character_saved' character.id %}" method="post">
         {% csrf_token %}
         <fieldset>
             <legend>Basic info</legend>
@@ -41,16 +41,16 @@
                 <li>
                     <label for="skill_{{skill.skill.name}}">{{skill.skill.name}}:</label>
                     <input type="number" name="{{skill.skill.name}}" id="skill_{{skill.skill.name}}"
-                        value={{skill.value}}></input>
+                        value={{skill.allocated_points}}></input>
                 </li>
                 {%endfor%}
 
             </ul>
         </fieldset>
-
+        <input type="submit" value="Save">
     </form>
 
-    <button>Save</button>
+
 </body>
 
 </html>

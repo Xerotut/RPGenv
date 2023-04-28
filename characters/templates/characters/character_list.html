@@ -13,7 +13,7 @@
     <section>
         <ul>
             {% for character in characters %}
-            <li><a href={% url 'characters:character_sheet' character.id %}>{{character.name}}</a></li>
+            <li><a href={% url 'characters:character_sheet' character.id%}>{{character.name}}</a></li>
             {% endfor %}
         </ul>
     </section>

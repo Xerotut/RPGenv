@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views import generic
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from .models import Character
 
@@ -18,3 +20,20 @@ class CharIndexView(generic.ListView):
 class CharSheetView(generic.DetailView):
     model = Character
     template_name = "characters/character_sheet.html"
+
+
+def save_character(request, character_id):
+    character = get_object_or_404(Character, pk=character_id)
+    character.name = request.POST['character_name']
+    character.level = request.POST['character_level']
+    character.current_exp = request.POST['character_exp']
+    for attribute in character.charattribute_set.all(): 
+        print(attribute.value)       
+        attribute.value = request.POST[str(attribute.attribute.name)]
+        attribute.save()
+    for skill in character.charskill_set.all():
+        skill.allocated_points = request.POST[str(skill.skill.name)]
+        skill.save()
+    character.save()
+    return HttpResponseRedirect(reverse("characters:character_sheet", args = (character.id,)))
+
