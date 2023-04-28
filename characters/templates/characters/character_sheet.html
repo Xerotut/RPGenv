@@ -27,8 +27,8 @@
                 {%for attribute in character.charattribute_set.all%}
                 <li>
                     <label for="attribute_{{attribute.attribute.name}}">{{attribute.attribute.name}}:</label>
-                    <input type="number" name="{{attribute.attribute.name}}" id="
-                        attribute_{{attribute.attribute.name}}" value={{attribute.value}}></input>
+                    <input type="number" name="{{attribute.attribute.name}}" id="attribute_{{attribute.attribute.name}}"
+                        value={{attribute.value}}></input>
                 </li>
                 {%endfor%}
 
