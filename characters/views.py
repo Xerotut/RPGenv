@@ -4,8 +4,8 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Character
-from .forms import CharacterForm
+from .models import Character, CharAttribute
+from .forms import CharacterForm, CharAttributeForm
 # Create your views here.
 
 
@@ -23,15 +23,22 @@ class CharSheetView(generic.DetailView):
 
 def character_sheet(request, pk):
     character = get_object_or_404(Character, pk=pk)
-    if request.method == 'POST':
-        form = CharacterForm(request.POST, instance= character)
-        
-        if form.is_valid():
-            print('halo1')
-            form.save()    
+    attributes = CharAttribute.objects.filter(character = character)
     
+    if request.method == 'POST':
+      
+        attribute_forms = [CharAttributeForm(request.POST, instance=attribute, prefix=f'attribute_{attribute.pk}') for attribute in attributes]
+        form = CharacterForm(request.POST, instance = character)
+        
+        if form.is_valid() and all(attribute_form.is_valid() for attribute_form in attribute_forms):         
+            form.save()    
+            for attribute_form in attribute_forms:              
+                attribute_form.save()
+    
+    attribute_forms = [CharAttributeForm(instance=attribute, prefix=f'attribute_{attribute.pk}') for attribute in attributes]
     form = CharacterForm(instance=character)
-    return render(request, "characters/character_sheet.html", {'form':form, 'character': character})
+    context = {'character': character,'form':form, 'attribute_forms': attribute_forms}
+    return render(request, "characters/character_sheet.html", context)
 
     
     
