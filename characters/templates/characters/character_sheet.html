@@ -7,46 +7,9 @@
 
 <body>
 
-    <form action="{% url 'characters:character_saved' character.id %}" method="post">
+    <form action="{% url 'characters:character_sheet' character.id %}" method="post">
         {% csrf_token %}
-        <fieldset>
-            <legend>Basic info</legend>
-            <label for="name">Name:</label>
-            <input type="text" name="character_name" placeholder="Character Name" id="name"
-                value={{character.name}}></input>
-
-            <label for="level">Level:</label>
-            <input type="number" name="character_level" id="level" value={{character.level}}></input>
-
-            <label for="exp">Experience:</label>
-            <input type="number" name="character_exp" id="exp" value={{character.current_exp}}></input>
-        </fieldset>
-        <fieldset>
-            <legend>Attributes</legend>
-            <ul>
-                {%for attribute in character.charattribute_set.all%}
-                <li>
-                    <label for="attribute_{{attribute.attribute.name}}">{{attribute.attribute.name}}:</label>
-                    <input type="number" name="{{attribute.attribute.name}}" id="attribute_{{attribute.attribute.name}}"
-                        value={{attribute.value}}></input>
-                </li>
-                {%endfor%}
-
-            </ul>
-        </fieldset>
-        <fieldset>
-            <legend>Skills</legend>
-            <ul>
-                {%for skill in character.charskill_set.all%}
-                <li>
-                    <label for="skill_{{skill.skill.name}}">{{skill.skill.name}}:</label>
-                    <input type="number" name="{{skill.skill.name}}" id="skill_{{skill.skill.name}}"
-                        value={{skill.allocated_points}}></input>
-                </li>
-                {%endfor%}
-
-            </ul>
-        </fieldset>
+        {{form}}
         <input type="submit" value="Save">
     </form>
 
