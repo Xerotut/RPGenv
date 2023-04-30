@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Character
-
+from .forms import CharacterForm
 # Create your views here.
 
 
@@ -21,6 +21,10 @@ class CharSheetView(generic.DetailView):
     model = Character
     template_name = "characters/character_sheet.html"
 
+def character_sheet(request, pk):
+    character = Character.objects.get(pk=pk)
+    form = CharacterForm(instance=character)
+    return render(request, "character_sheet.html", {'form':form})
 
 def save_character(request, character_id):
     character = get_object_or_404(Character, pk=character_id)
