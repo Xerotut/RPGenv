@@ -3,5 +3,6 @@ from .models import Character
 
 
 class CharacterForm(ModelForm):
-    model = Character
-    fields = "__all__"
+    class Meta:
+        model = Character
+        fields = "__all__"
