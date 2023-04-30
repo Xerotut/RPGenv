@@ -22,10 +22,19 @@ class CharSheetView(generic.DetailView):
     template_name = "characters/character_sheet.html"
 
 def character_sheet(request, pk):
-    character = Character.objects.get(pk=pk)
+    
+    if request.method == 'POST':
+        form = CharacterForm(request.POST)
+        if form.is_valid():
+            form.save()
+    
+    character = get_object_or_404(Character, pk=pk)
     form = CharacterForm(instance=character)
     return render(request, "character_sheet.html", {'form':form})
 
+    
+    
+    
 def save_character(request, character_id):
     character = get_object_or_404(Character, pk=character_id)
     character.name = request.POST['character_name']
