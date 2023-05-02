@@ -34,9 +34,10 @@ def character_sheet(request, pk):
             form.save()    
             for attribute_form in attribute_forms:              
                 attribute_form.save()
-    
-    attribute_forms = [CharAttributeForm(instance=attribute, prefix=f'attribute_{attribute.pk}') for attribute in attributes]
-    form = CharacterForm(instance=character)
+    else:
+        attribute_forms = [CharAttributeForm(instance=attribute, prefix=f'attribute_{attribute.pk}') for attribute in attributes]
+        form = CharacterForm(instance=character)
+        
     context = {'character': character,'form':form, 'attribute_forms': attribute_forms}
     return render(request, "characters/character_sheet.html", context)
 

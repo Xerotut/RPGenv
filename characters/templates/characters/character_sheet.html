@@ -9,11 +9,16 @@
 
     <form action="{% url 'characters:character_sheet' character.id %}" method="post">
         {% csrf_token %}
-        {{form}}
-        {%for form in attribute_forms %}
+        <fieldset>
+            {{form.as_p}}
+        </fieldset>
+        <fieldset>
+            <legend>Attributes:</legend>
+            {%for form in attribute_forms %}
             {{ form.attribute.label_tag }} {{ form.attribute }}<br>
             {{ form.value.label_tag }} {{ form.value }}<br>
-        {% endfor %}
+            {% endfor %}
+        </fieldset>
         <input type="submit" value="Save">
     </form>
 
