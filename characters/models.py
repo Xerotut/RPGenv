@@ -8,7 +8,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Attribute(models.Model):
-    name = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=100, blank=True, unique= True)
     abbreviation = models.CharField(max_length=3, blank=True)
     def __str__(self):
         return self.name
@@ -91,6 +91,9 @@ class FlawDescription(models.Model):
             models.UniqueConstraint(fields=['flaw', 'intensity'], name='unique_flaw_intensity')
         ]
     
+class Advantage(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
 
 class Character(models.Model):
     name = models.CharField(max_length=255, default= "New character")
@@ -101,6 +104,7 @@ class Character(models.Model):
     attributes = models.ManyToManyField(Attribute, through="CharAttribute")        
     skills = models.ManyToManyField(Skill, through="CharSkill")        
     flaw = models.ForeignKey(Flaw,null=True, blank=True, on_delete=models.SET_NULL)
+    advantage = models.ForeignKey(Advantage,null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name

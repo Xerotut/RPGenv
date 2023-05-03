@@ -6,7 +6,7 @@ class CharacterForm(forms.ModelForm):
     class Meta:
         model = Character
         exclude = ['skills', 'attributes']
-
+    
 
 class CharAttributeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
