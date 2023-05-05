@@ -163,3 +163,12 @@ cython_debug/
 *.pyc
 *.pyc
 *.pyc
+mythic/word files/words.txt
+mythic/word files/objects.txt
+mythic/word files/locations.txt
+mythic/word files/descriptor II.txt
+mythic/word files/descriptor I.txt
+mythic/word files/characters.txt
+mythic/word files/action II.txt
+mythic/word files/action I.txt
+mythic/word files/words.txt

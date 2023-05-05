@@ -7,6 +7,7 @@ MEANING_TABLE_TYPES = [
         ("ELEMENT", "Element"),
     ]
 
+
 class ChaosFactor(models.Model):
     intencity = models.BigAutoField(validators=[MinValueValidator(1), MaxValueValidator(9)], primary_key=True)
     def __str__(self):
