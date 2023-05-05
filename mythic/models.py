@@ -67,7 +67,7 @@ class MeaningTableElement(models.Model):
     word = models.CharField(max_length=100)
     
     def __str__(self):
-        return self.table + ": " + self.word
+        return self.table.name + ": " + self.word 
 
     class Meta:
         constraints =[

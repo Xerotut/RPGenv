@@ -1,0 +1,6 @@
+1: Abandon
+2: Accompany
+3: Activate
+4: Agree
+5: Ambush
+6: Arrive
