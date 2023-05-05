@@ -64,11 +64,10 @@ class MeaningTable(models.Model):
 
 class MeaningTableElement(models.Model):
     table = models.ForeignKey(MeaningTable, on_delete=models.PROTECT)
-    d100 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)], unique=True)
-    word = models.CharField(100)
+    word = models.CharField(max_length=100)
     
     def __str__(self):
-        return str(self.d100) + ": " + self.word
+        return self.table + ": " + self.word
 
     class Meta:
         constraints =[
