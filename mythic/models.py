@@ -7,7 +7,10 @@ MEANING_TABLE_TYPES = [
         ("ELEMENT", "Element"),
     ]
 
-
+LIST_TYPES = [
+    ('CHARACTER', "Character"),
+    ('THREAD', "Thread")
+]
 class ChaosFactor(models.Model):
     intencity = models.BigAutoField(validators=[MinValueValidator(1), MaxValueValidator(9)], primary_key=True)
     def __str__(self):
@@ -75,6 +78,15 @@ class MeaningTableElement(models.Model):
             models.UniqueConstraint(fields=['table', 'word'], name='unique_word_in_table')
         ]
 
+class SceneAdjustmentOption(models.Model):
+    yes_if_equal_or_lower =models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], default=1, unique=True)
+    name = models.CharField(max_length=155)
+    description = models.TextField()
+
+    def __str__(self):
+        return str(self.yes_if_equal_or_lower) + ": " + self.name
+
+
 class Game(models.Model):
     name = models.CharField(max_length=255)
     current_chaos_factor = models.ForeignKey(ChaosFactor, on_delete=models.PROTECT, default =5)
@@ -82,6 +94,17 @@ class Game(models.Model):
     def __str__(self):
         return self.name
 
+class List(models.Model):
+    type = models.CharField(max_length=155, choices=LIST_TYPES)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    class Meta:
+        constraints =[
+            models.UniqueConstraint(fields=['type', 'game'], name='unique_list_in_game')
+        ]
+
+class ListNote(models.Model):
+    note_list = models.ForeignKey(List, on_delete=models.CASCADE)
+    text = models.TextField(blank = True, null=True)
 
 class Scene(models.Model):
     name = models.CharField(max_length=255, default= "Scene")
