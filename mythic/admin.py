@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib import admin
-from . models import ChaosFactor, Probability, FateChart, Game, Scene, RandomEventFocus, MeaningTable, MeaningTableElement, SceneAdjustmentOption
+from . models import ChaosFactor, Probability, FateChart, Game, Scene, RandomEventFocus, MeaningTable, MeaningTableElement, SceneAdjustmentOption, List
 
 # Register your models here.
 class ChaosFactorAdmin(admin.ModelAdmin):
@@ -37,6 +37,7 @@ admin.site.register(RandomEventFocus)
 #admin.site.register(MeaningTableElement)
 admin.site.register(MeaningTable, MeaningTableAdmin)
 admin.site.register(SceneAdjustmentOption)
+admin.site.register(List)
 #admin.site.register(FateChart)
 
 

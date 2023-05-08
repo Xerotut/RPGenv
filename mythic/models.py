@@ -93,10 +93,25 @@ class Game(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):        
+        if not self.pk:             
+            super().save(*args, **kwargs) 
+            new_character_list = List(type = "CHARACTER", game = self)
+            new_thread_list = List(type = "THREAD", game = self)
+            new_character_list.save()
+            new_thread_list.save()
+        else:
+            super().save(*args, **kwargs)  
+
 
 class List(models.Model):
     type = models.CharField(max_length=155, choices=LIST_TYPES)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.game.name + ": " + self.type + " list"
+
     class Meta:
         constraints =[
             models.UniqueConstraint(fields=['type', 'game'], name='unique_list_in_game')
