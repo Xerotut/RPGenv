@@ -1,10 +1,10 @@
 list_of_games = document.getElementById('list-of-games');
-let nextGameNumber = 0;
+let gamesDisplayed = 0;
 
 
 function loadOneMoreGame() {
-    console.log(nextGameNumber);
-    let nextGameURL = "get_game/" + nextGameNumber
+    const xhr = new XMLHttpRequest();
+
     fetch(nextGameURL)
         .then(response => response.json()) // converts the response to JSON
         .then(data => {
@@ -13,8 +13,8 @@ function loadOneMoreGame() {
             let new_element = document.createElement('li');
             new_element.innerText = parsedData[0].fields.name;
             list_of_games.appendChild(new_element);
-            nextGameNumber += 1
-            // nextGameNumber = data.next_game_number;
+            gamesDisplayed += 1;
+
 
         });
 }
