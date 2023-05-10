@@ -1,22 +1,32 @@
-list_of_games = document.getElementById('list-of-games');
+listOfGames = document.getElementById('list-of-games');
+getGamesUrl = document.getElementById('get-games-url').value
 let gamesDisplayed = 0;
-
+const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 function loadOneMoreGame() {
+
     const xhr = new XMLHttpRequest();
+    xhr.open('POST', getGamesUrl);
 
-    fetch(nextGameURL)
-        .then(response => response.json()) // converts the response to JSON
-        .then(data => {
-            parsedData = JSON.parse(data);
-            console.log(parsedData);
-            let new_element = document.createElement('li');
-            new_element.innerText = parsedData[0].fields.name;
-            list_of_games.appendChild(new_element);
-            gamesDisplayed += 1;
+    xhr.responseType = 'json';
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+
+    xhr.onload = () => {
+        const data = JSON.parse(xhr.response);
+
+        console.log(data);
+
+        let newElement = document.createElement('li');
+        newElement.innerText = data[0].fields.name;
+        listOfGames.appendChild(newElement);
+        gamesDisplayed += 1;
+    }
 
 
-        });
+    xhr.send(JSON.stringify({ games_displayed: gamesDisplayed }));
+
 }
 
 /* let new_element = document.createElement('p');
