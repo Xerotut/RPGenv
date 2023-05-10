@@ -10,17 +10,13 @@
 </head>
 
 <body>
-    <input type='hidden' , id='get-games-url' value='{% url 'mythic:gamtest'%}'>
+   
     <header>
         <h1>Games</h1>
     </header>
-    <ul>
-        {%for game in games%}
-        <li><a href={% url 'mythic:games' game.id%}>{{game.name}}</a></li>
-        {% endfor%}
-    </ul>
+    <ul id = 'list-of-games'></ul>
 
-    <button onclick = "testFunction()">Test button</button>
+    <button onclick = "loadOneMoreGame()">Test button</button>
 
     <script src = "{% static 'mythic/js/test.js' %}"></script>
 </body>
