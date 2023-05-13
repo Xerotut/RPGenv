@@ -6,10 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{game.name}}</title>
+    {%load static%}
+    <link rel="stylesheet" href={% static "mythic/css/game_style.css" %}>
 </head>
 
 <body>
-
+    <div class = "scene-line">
+        {% for scene in game.scene_set.all %}
+            <div class = "scene" onclick="alert('You clicked the box!')">
+                {{scene.name}}
+            </div>
+        {% endfor %}
+    </div>
+    <div class = "game-area">
+        <div class = "list">
+            <div class = "list-content">
+                <p>First character</p>
+                <button class = 'add-content-button'>+</button>
+            </div>
+            <div class = "list-name">
+                <h2 class = "list-name-text">Characters</h2>
+            </div>
+        </div>
+        <div class = "message-interface">
+            <div class="message-box">
+                <h2>Hello World!</h2>
+                <p>This is a message box.</p>
+            </div>
+            <form class = "message-form">
+                <label for="message">Enter your message:</label><br>
+                <textarea id="message" name="message" rows="4" cols="50" class = "message-area"></textarea><br>
+            </form>
+        </div>
+        <div class = "list">
+            <div class = "list-content">
+                <p>First thread</p>
+                <button class = 'add-content-button'>+</button>
+            </div>
+            <div class = "list-name">
+                <h2 class = "list-name-text">Threads</h2>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

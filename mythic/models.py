@@ -87,10 +87,14 @@ class SceneAdjustmentOption(models.Model):
         return str(self.yes_if_equal_or_lower) + ": " + self.name
 
 
+
 class Game(models.Model):
+   
+   
+
     name = models.CharField(max_length=255)
     current_chaos_factor = models.ForeignKey(ChaosFactor, on_delete=models.PROTECT, default =5)
-    
+    active_scene = models.ForeignKey('Scene', on_delete=models.PROTECT,related_name='games', null = True, blank=True)
     def __str__(self):
         return self.name
     
@@ -103,7 +107,6 @@ class Game(models.Model):
             new_thread_list.save()
         else:
             super().save(*args, **kwargs)  
-
 
 class List(models.Model):
     type = models.CharField(max_length=155, choices=LIST_TYPES)
