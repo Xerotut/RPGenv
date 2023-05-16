@@ -10,24 +10,25 @@
 </head>
 
 <body>
-    <input type='hidden' , id='get-games-url' value='{% url 'mythic:next_game'%}'>
+    <input type='hidden' , id='get-list_of_games-url' value='{% url 'mythic:get_list_of_games'%}'>
+    <input type = 'hidden', id = 'go-to-game-url' value ='{% url 'mythic:games' 0 %}'>
     <header>
         <h1>Games</h1>
     </header>
     <ul id = 'list-of-games'>
-        {% for game in games%}
-        <li><a href={% url 'mythic:games' game.id%}>{{game.name}}</a></li>
-        {%endfor%}
     </ul>
-    <form hidden = 'True'>
+    <form action = {%url 'mythic:get_list_of_games' %} method = "POST" hidden id = "create-new-game-form">
+        {% csrf_token %}
         <label for = 'new-game-name'>Game name:</label>
-            <input id = 'new-game-name'> 
+        <input id = 'new-game-name' name ='new-game-name' required> <br>
+        <input type="submit" value="Save">
+        <input type="button" onclick = 'cancelCreateNewGame()', value = "Cancel">
     </form>
-    <button id = 'create-new-game'>Create New Game</button>
+    <button id = 'create-new-game-button' onclick = 'showCreateNewGameForm()'>Create New Game</button>
 
    
 
-    <script src = "{% static 'mythic/js/test.js' %}"></script>
+    <script src = "{% static 'mythic/js/game-list.js' %}"></script>
 </body>
 
 </html>

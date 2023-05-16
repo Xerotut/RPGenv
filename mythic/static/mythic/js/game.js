@@ -7,6 +7,7 @@ const messageBox = document.getElementById('message-box');
 
 
 
+
 textField.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         let text = textField.value;

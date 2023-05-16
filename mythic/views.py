@@ -4,6 +4,8 @@ from django.core import serializers
 from django.http import JsonResponse
 from .models import Game, MeaningTable, Scene
 import json
+
+from django.db.models import F
 # Create your views here.
 
 class GameListView(ListView):
@@ -20,6 +22,19 @@ def game_view(request, game_id):
     scenes = Scene.objects.filter(game = game_id)
     context = {"game": game, "meaning_tables":meaning_tables, "scenes": scenes}
     return render (request, 'mythic/game.html', context)
+
+def show_games_list(request):
+    if request.method == "POST":
+        name = request.POST.get('new-game-name')
+        games_to_serialize = Game(name = name)
+        games_to_serialize.save()
+        serialized_games = serializers.serialize('json', [games_to_serialize])
+    else:
+        games_to_serialize = Game.objects.all()
+        serialized_games = serializers.serialize('json', games_to_serialize)
+    
+    return JsonResponse(serialized_games, safe=False)
+        
 
 def get_more_games(request):
     print(json.loads(request.body))

@@ -1,7 +1,21 @@
 listOfGames = document.getElementById('list-of-games');
-getGamesUrl = document.getElementById('get-games-url').value
+getGamesUrl = document.getElementById('get-games-url').value;
 let gamesDisplayed = 0;
+
+createNewGameForm = document.getElementById('create-new-game-form');
+createNewGameButton = document.getElementById('create-new-game-button');
+
 const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+function showCreateNewGameForm() {
+    createNewGameForm.removeAttribute('hidden');
+    createNewGameButton.setAttribute('hidden', '');
+}
+
+function cancelCreateNewGame() {
+    createNewGameForm.setAttribute('hidden', '');
+    createNewGameButton.removeAttribute('hidden');
+}
 
 function loadOneMoreGame() {
 
