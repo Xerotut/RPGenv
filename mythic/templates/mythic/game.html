@@ -8,16 +8,18 @@
     <title>{{game.name}}</title>
     {%load static%}
     <link rel="stylesheet" href={% static "mythic/css/game_style.css" %}>
+    {% csrf_token %}
 </head>
 
 <body>
-    <div class = "scene-line">
+    <input type='hidden' , id='send-message-url' value='{% url 'mythic:send_message'%}'>
+    {% comment %} <div class = "scene-line">
         {% for scene in game.scene_set.all %}
             <div class = "scene" onclick="alert('You clicked the box!')">
                 {{scene.name}}
             </div>
         {% endfor %}
-    </div>
+    </div> {% endcomment %}
     <div class = "game-area">
         <div class = "list">
             <div class = "list-content">
@@ -29,12 +31,34 @@
             </div>
         </div>
         <div class = "message-interface">
-            <div class="message-box">
+            <div id = 'tab-line'>
+                <div id = "notes-tab" class = "tab">
+                    <h3 class = "tab-name">Notes:</h3>
+                  
+                </div>
+                {%for scene in scenes%}
+                <div id = {{scene.name}} class = "tab">
+                    <h3 class = "tab-name" unselectable="on">{{scene.name}}:</h3>
+                </div>
+                {%endfor%}
+                <button id = "add-scene-button">+</button>
+            </div>
+            <div id = "message-box" class="message-box">
                 <h2>Hello World!</h2>
                 <p>This is a message box.</p>
             </div>
+            <div>
+                <p id = "meaning-roll-label">Meaning roll:</p>
+                <button class = "meaning-roll-button">Action</button>{% comment %} 
+                 {% endcomment %}<button class = "meaning-roll-button">Description</button>
+                 <button class = "meaning-roll-button" id = "element-meaning-roll-button">Element:</button>{% comment %} 
+                 {% endcomment %}<select id = "meanings">
+                    {% for meaning_table in meaning_tables %}
+                    <option value = {{meaning_table.name}}>{{meaning_table.name}}</option>
+                    {%endfor%}
+                </select>
+            </div>
             <form class = "message-form">
-                <label for="message">Enter your message:</label><br>
                 <textarea id="message" name="message" rows="4" cols="50" class = "message-area"></textarea><br>
             </form>
         </div>
@@ -48,6 +72,8 @@
             </div>
         </div>
     </div>
+
+    <script src = "{% static 'mythic/js/game.js' %}"></script>
 </body>
 
 </html>

@@ -14,9 +14,18 @@
     <header>
         <h1>Games</h1>
     </header>
-    <ul id = 'list-of-games'></ul>
+    <ul id = 'list-of-games'>
+        {% for game in games%}
+        <li><a href={% url 'mythic:games' game.id%}>{{game.name}}</a></li>
+        {%endfor%}
+    </ul>
+    <form hidden = 'True'>
+        <label for = 'new-game-name'>Game name:</label>
+            <input id = 'new-game-name'> 
+    </form>
+    <button id = 'create-new-game'>Create New Game</button>
 
-    <button onclick = "loadOneMoreGame()">Test button</button>
+   
 
     <script src = "{% static 'mythic/js/test.js' %}"></script>
 </body>

@@ -29,6 +29,10 @@ function loadOneMoreGame() {
 
 }
 
+function createNewGameInterface() {
+
+}
+
 /* let new_element = document.createElement('p');
 new_element.innerText = document.getElementById('get-games-url').value();
 document.body.appendChild(new_element); */

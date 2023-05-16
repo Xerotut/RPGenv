@@ -1,11 +1,16 @@
+* {
+    margin: 0;
+}
+
 body {
     background-color: rgb(215, 228, 233);
     margin: 0;
     height: 100%;
+    overflow-y: hidden;
 }
 
 .scene-line {
-    min-height: 20px;
+    min-height: 17px;
     height: 3vh;
     /* overflow-x: scroll; */
 
@@ -19,7 +24,8 @@ body {
 
 .game-area {
     display: flex;
-    height: 97vh;
+    min-height: 100vh;
+    max-height: 100vh;
     background-color: rgb(196, 209, 214);
 }
 
@@ -71,21 +77,74 @@ body {
     margin: 0;
 }
 
-.message-form {
+#message-box-header {
     margin: 0;
-    border-bottom: 5px solid rgb(196, 209, 214);
+    max-height: 50px;
+}
+
+#tab-line {
+    display: inline;
+}
+
+.tab {
+    background-color: rgb(255, 255, 255);
+    display: inline-block;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .message-box {
     background-color: #fff;
     padding: 20px;
     overflow-y: scroll;
+    border-radius: 2px;
     flex-grow: 1;
     background-color: rgb(255, 255, 255);
+    max-height: 80%;
+}
+
+#meaning-roll-label {
+    display: inline;
+}
+
+.meaning-roll-button {
+    display: inline;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0;
+    border-color: rgb(233, 244, 252);
+    margin: 0;
+
+}
+
+/* #element-meaning-roll-button {
+    border-right: 0;
+} */
+
+#meanings {
+    /*  border-left: 0; */
+    border-color: rgb(233, 244, 252);
+}
+
+.message-form {
+    margin: 0;
+    border-bottom: 5px solid rgb(196, 209, 214);
+    min-height: 10%;
 }
 
 .message-area {
     width: 99%;
     margin: 0;
+    border-color: #fff;
     border-bottom: 5px solid rgb(196, 209, 214);
+    resize: none;
+}
+
+.list-name,
+.tab {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

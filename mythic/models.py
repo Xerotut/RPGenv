@@ -60,14 +60,14 @@ class RandomEventFocus(models.Model):
     
 
 class MeaningTable(models.Model):
-    type = models.CharField(max_length=155, choices=MEANING_TABLE_TYPES)
+    type = models.CharField(max_length=155, choices=MEANING_TABLE_TYPES, default = "ELEMENT")
     name = models.CharField(max_length=100, unique=True)
     
     def __str__(self):
         return self.type + ": " + self.name
 
 class MeaningTableElement(models.Model):
-    table = models.ForeignKey(MeaningTable, on_delete=models.PROTECT)
+    table = models.ForeignKey(MeaningTable, on_delete=models.CASCADE)
     word = models.CharField(max_length=100)
     
     def __str__(self):
@@ -89,12 +89,12 @@ class SceneAdjustmentOption(models.Model):
 
 
 class Game(models.Model):
-   
-   
-
     name = models.CharField(max_length=255)
     current_chaos_factor = models.ForeignKey(ChaosFactor, on_delete=models.PROTECT, default =5)
-    active_scene = models.ForeignKey('Scene', on_delete=models.PROTECT,related_name='games', null = True, blank=True)
+    active_scene = models.ForeignKey('Scene', on_delete=models.SET_NULL,related_name='games', null = True, blank=True)
+
+    time_created = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.name
     
@@ -123,10 +123,12 @@ class List(models.Model):
 class ListNote(models.Model):
     note_list = models.ForeignKey(List, on_delete=models.CASCADE)
     text = models.TextField(blank = True, null=True)
+    time_created = models.DateTimeField(auto_now_add=True)
 
 class Scene(models.Model):
     name = models.CharField(max_length=255, default= "Scene")
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.game) + ": " + self.name
@@ -138,3 +140,17 @@ class Scene(models.Model):
             super().save(*args, **kwargs) 
         else:
             super().save(*args, **kwargs)  
+
+
+class Message(models.Model):
+    text = models.TextField()
+    time_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+class Note(Message):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+
+class SceneMessage(Message):
+    scene = models.ForeignKey(Scene, on_delete=models.CASCADE)

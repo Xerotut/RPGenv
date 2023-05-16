@@ -6,5 +6,7 @@ app_name = "mythic"
 urlpatterns = [
     path("", views.GameListView.as_view(), name = "list_of_games"),
     path("<int:game_id>/", views.game_view, name = "games"),
-    path("get_game/", views.get_more_games, name = "next_game")
+    
+    path("get_game/", views.get_more_games, name = "next_game"),
+    path("send_message/", views.send_message, name = "send_message"),
 ]
