@@ -23,13 +23,13 @@
         <label for = 'new-game-name'>Game name:</label>
         <input id = 'new-game-name' name ='new-game-name' required> <br>
         <input type="submit" value="Save">
-        <input type="button" onclick = 'cancelCreateNewGame()', value = "Cancel">
+        <input type="button" id = 'cancel-create-new-game' value = "Cancel">
     </form>
-    <button id = 'create-new-game-button' onclick = 'showCreateNewGameForm()'>Create New Game</button>
+    <button id = 'create-new-game-button'>Create New Game</button>
 
    
 
-    <script src = "{% static 'mythic/js/game-list.js' %}"></script>
+    <script  type="module" src = "{% static 'mythic/js/game-list.js' %}"></script>
 </body>
 
 </html>

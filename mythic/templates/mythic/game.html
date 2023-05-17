@@ -13,13 +13,17 @@
 
 <body>
     <input type='hidden' , id='send-message-url' value='{% url 'mythic:send_message'%}'>
-    {% comment %} <div class = "scene-line">
-        {% for scene in game.scene_set.all %}
-            <div class = "scene" onclick="alert('You clicked the box!')">
-                {{scene.name}}
-            </div>
-        {% endfor %}
-    </div> {% endcomment %}
+    <script>
+        window.messagesURL = "{% url 'mythic:messages' game.pk 0%}";
+        console.log(window.messagesURL.length);
+        window.gameId = {{game.pk}};
+        {%if game.active_scene != None%}
+        window.activeTab = {{game.active_scene.pk}};
+        {%else%}
+        window.activeTab = null;
+        {%endif%}
+        console.log(window.activeTab);
+    </script>
     <div class = "game-area">
         <div class = "list">
             <div class = "list-content">
@@ -37,15 +41,14 @@
                   
                 </div>
                 {%for scene in scenes%}
-                <div id = {{scene.name}} class = "tab">
+                <div id = {{scene.pk}} class = "tab">
                     <h3 class = "tab-name" unselectable="on">{{scene.name}}:</h3>
                 </div>
                 {%endfor%}
                 <button id = "add-scene-button">+</button>
             </div>
             <div id = "message-box" class="message-box">
-                <h2>Hello World!</h2>
-                <p>This is a message box.</p>
+                
             </div>
             <div>
                 <p id = "meaning-roll-label">Meaning roll:</p>
@@ -58,8 +61,9 @@
                     {%endfor%}
                 </select>
             </div>
-            <form class = "message-form">
+            <form id ="message-form" class = "message-form">
                 <textarea id="message" name="message" rows="4" cols="50" class = "message-area"></textarea><br>
+                <input type="submit" value=">">
             </form>
         </div>
         <div class = "list">
@@ -73,7 +77,7 @@
         </div>
     </div>
 
-    <script src = "{% static 'mythic/js/game.js' %}"></script>
+    <script type='module' src = "{% static 'mythic/js/game.js' %}"></script>
 </body>
 
 </html>

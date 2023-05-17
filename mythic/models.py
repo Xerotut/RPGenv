@@ -141,6 +141,11 @@ class Scene(models.Model):
         else:
             super().save(*args, **kwargs)  
 
+    class Meta:
+        constraints =[
+            models.UniqueConstraint(fields=['name', 'game'], name='unique_scene_in_game')
+        ]
+
 
 class Message(models.Model):
     text = models.TextField()

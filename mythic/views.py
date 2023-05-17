@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import Http404
 from django.views.generic.list import ListView
 from django.core import serializers
 from django.http import JsonResponse
-from .models import Game, MeaningTable, Scene
+from .models import Game, MeaningTable, Scene, SceneMessage, Note
 import json
+from django.views.decorators.csrf import csrf_protect
 
 from django.db.models import F
 # Create your views here.
@@ -46,6 +48,34 @@ def get_more_games(request):
     print(serialized_game)
     return JsonResponse(serialized_game, safe=False)
     
+def messages(request,game_id, scene_id):
+    if request.method == "GET":
+        if scene_id !=0:
+            try:
+                game = get_object_or_404(Game, pk=game_id)
+                scene = get_object_or_404(Scene, pk=scene_id, game=game)
+                messages = SceneMessage.objects.filter(scene=scene).order_by('-time_created')[:5]
+            except Http404:
+                print('halo')
+        else:
+            print("halo")
+            messages = Note.objects.filter(game=game_id).order_by('-time_created')[:5]
+        seralized_messages = serializers.serialize('json', messages)
+        return JsonResponse(seralized_messages, safe=False)
+    else:
+        message = request.POST.get('message')
+        game = get_object_or_404(Game, pk=game_id)
+        if scene_id !=0:
+            scene = get_object_or_404(Scene, pk=scene_id, game=game)
+            new_message = SceneMessage(text = message, scene = scene)
+        else:
+            new_message = Note(text = message, game = game)
+        new_message.save()
+        print(message)
+        return None
+    
+
+@csrf_protect
 def delete_game(request,game_id):
     game = get_object_or_404(Game, pk = game_id)
     game.delete()
