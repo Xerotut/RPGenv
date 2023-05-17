@@ -46,5 +46,9 @@ def get_more_games(request):
     print(serialized_game)
     return JsonResponse(serialized_game, safe=False)
     
+def delete_game(request,game_id):
+    game = get_object_or_404(Game, pk = game_id)
+    game.delete()
+
 def send_message(request):
     print("halo")

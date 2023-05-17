@@ -12,6 +12,7 @@
 <body>
     <input type='hidden' , id='get-list_of_games-url' value='{% url 'mythic:get_list_of_games'%}'>
     <input type = 'hidden', id = 'go-to-game-url' value ='{% url 'mythic:games' 0 %}'>
+    <input type = 'hidden', id = 'delete-game-url' value ='{% url 'mythic:delete_game' 0 %}'>
     <header>
         <h1>Games</h1>
     </header>
