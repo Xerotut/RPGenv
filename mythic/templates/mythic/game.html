@@ -12,10 +12,13 @@
 </head>
 
 <body>
-    <input type='hidden' , id='send-message-url' value='{% url 'mythic:send_message'%}'>
     <script>
-        window.messagesURL = "{% url 'mythic:messages' game.pk 0%}";
-        window.scenesURL = "{% url 'mythic:scenes' game.pk%}";
+        let window.URLs = {
+            messages = "{% url 'mythic:messages' game.pk 0%}",
+            notes = "{% url 'mythic:notes' game.pk%}"
+            scenes = "{% url 'mythic:scenes' game.pk%}",
+         }
+        
         window.gameId = {{game.pk}};
         {%if game.active_scene != None%}
         window.activeTab = {{game.active_scene.pk}};
@@ -37,14 +40,17 @@
             <div id = 'tab-line'>
                 <div id = "notes-tab" class = "tab">
                     <h3 class = "tab-name">Notes:</h3>
-                  
+                    <div id = 'scenes-tab-line'>
+                        {%for scene in scenes%}
+                        <div id = {{scene.pk}} class = "tab">
+                            <h3 class = "tab-name" unselectable="on">{{scene.name}}:</h3>
+                        </div>
+                        {%endfor%}
+                    </div>
                 </div>
-                {%for scene in scenes%}
-                <div id = {{scene.pk}} class = "tab">
-                    <h3 class = "tab-name" unselectable="on">{{scene.name}}:</h3>
-                </div>
-                {%endfor%}
+                
                 <button id = "add-scene-button">+</button>
+                
             </div>
             <div id = "message-box" class="message-box">
                 

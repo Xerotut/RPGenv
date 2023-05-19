@@ -122,6 +122,7 @@ class List(models.Model):
 
 class ListNote(models.Model):
     note_list = models.ForeignKey(List, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
     text = models.TextField(blank = True, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
