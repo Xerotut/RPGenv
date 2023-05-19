@@ -7,18 +7,22 @@ const textField = document.getElementById('message');
 const messageBox = document.getElementById('message-box');
 const messageForm = document.getElementById('message-form');
 
-const noteTab = document.getElementById('notes-tab')
+const noteTab = document.getElementById('notes-tab');
 
-let tabs = document.querySelectorAll('.tab');
+const addSceneButton = document.getElementById('add-scene-button');
+
+const tabLine = document.getElementById('tab-line');
 
 let activeTab = window.activeTab;
+
+let tabs = document.querySelectorAll('.tab');
 
 if (activeTab === null) {
     activeTab = noteTab;
 } else {
     activeTab = document.getElementById(activeTab)
 }
-activeTab.classList.add('active');
+makeTabActive(activeTab.id);
 
 
 tabs.forEach(function (tab) {
@@ -48,6 +52,23 @@ messageForm.addEventListener('submit', function (event) {
         console.log(responceData);
     })
 });
+
+addSceneButton.addEventListener('click', function () {
+    sendXMLHttpRequest('GET', window.scenesURL, csrfToken).then(responceData => {
+        const data = JSON.parse(responceData)
+
+        const newTab = document.createElement('div');
+        newTab.setAttribute('id', data[0].pk);
+        newTab.setAttribute('class', "tab");
+        const tabName = document.createElement('h3');
+        tabName.setAttribute('class', 'tab-name');
+        tabName.setAttribute('unselectable', 'on');
+        tabName.innerText = data[0].fields.name;
+        newTab.appendChild(tabName);
+        tabLine.appendChild(newTab);
+
+    })
+})
 
 function makeTabActive(scene) {
     messageBox.innerHTML = "";

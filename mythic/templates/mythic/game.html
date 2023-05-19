@@ -15,14 +15,13 @@
     <input type='hidden' , id='send-message-url' value='{% url 'mythic:send_message'%}'>
     <script>
         window.messagesURL = "{% url 'mythic:messages' game.pk 0%}";
-        console.log(window.messagesURL.length);
+        window.scenesURL = "{% url 'mythic:scenes' game.pk%}";
         window.gameId = {{game.pk}};
         {%if game.active_scene != None%}
         window.activeTab = {{game.active_scene.pk}};
         {%else%}
         window.activeTab = null;
         {%endif%}
-        console.log(window.activeTab);
     </script>
     <div class = "game-area">
         <div class = "list">

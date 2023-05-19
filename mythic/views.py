@@ -54,12 +54,16 @@ def messages(request,game_id, scene_id):
             try:
                 game = get_object_or_404(Game, pk=game_id)
                 scene = get_object_or_404(Scene, pk=scene_id, game=game)
-                messages = SceneMessage.objects.filter(scene=scene).order_by('-time_created')[:5]
+                game.active_scene = scene
+                messages = SceneMessage.objects.filter(scene=scene).order_by('time_created')[:5]
             except Http404:
                 print('halo')
         else:
             print("halo")
-            messages = Note.objects.filter(game=game_id).order_by('-time_created')[:5]
+            game = get_object_or_404(Game, pk=game_id)
+            game.active_scene = None
+            messages = Note.objects.filter(game=game_id).order_by('time_created')[:5]
+        game.save()
         seralized_messages = serializers.serialize('json', messages)
         return JsonResponse(seralized_messages, safe=False)
     else:
@@ -73,7 +77,13 @@ def messages(request,game_id, scene_id):
         new_message.save()
         print(message)
         return None
-    
+
+def scenes(request, game_id):
+    game = get_object_or_404(Game, pk =game_id)
+    scene = Scene(game = game)
+    scene.save()
+    serialized_scene = serializers.serialize('json', [scene])
+    return JsonResponse(serialized_scene, safe=False)
 
 @csrf_protect
 def delete_game(request,game_id):
