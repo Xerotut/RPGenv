@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 
 MEANING_TABLE_TYPES = [
         ("ACTION", "Action"),
@@ -89,6 +90,7 @@ class SceneAdjustmentOption(models.Model):
 
 
 class Game(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     current_chaos_factor = models.ForeignKey(ChaosFactor, on_delete=models.PROTECT, default =5)
     active_scene = models.ForeignKey('Scene', on_delete=models.SET_NULL,related_name='games', null = True, blank=True)
