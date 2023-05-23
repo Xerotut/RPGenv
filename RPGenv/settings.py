@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "characters.apps.CharactersConfig",
     "mythic.apps.MythicConfig",
+    "accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [

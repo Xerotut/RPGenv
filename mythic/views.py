@@ -82,13 +82,13 @@ def lists_entries(request, list_id):
         new_entry.save()
         serialized_data = serialize_data_to_json([new_entry])
     return JsonResponse(serialized_data, safe=False)
-        
+"""         
 def meaning_roll_action(request ):
 
 def meaning_roll_description(request):
 
 def meaning_roll_element(request, table_id):
-
+ """
 @csrf_protect
 def delete_game(request,game_id):
     game = get_object_or_404(Game, pk = game_id)
