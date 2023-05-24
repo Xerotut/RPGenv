@@ -1,0 +1,4 @@
+<li class = "games-list-entry">
+    <a href = "{% url 'mythic:game' game.pk %}">{{game.name}}</a>
+    <button id = "delete-button-{{game.pk}}" class = 'delete-button' value = "{% url 'mythic:delete_game' game.pk%}">Delete</button>
+</li>

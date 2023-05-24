@@ -9,14 +9,13 @@
 <ul id = 'list-of-games'>
     {%for game in games%}
     <li class = "games-list-entry">
-        <a href = "{% url 'mythic:game' {{game.pk}} }">{{game.name}}</a>
-        <button class = 'delete-button' value = "{{game.pk}}">Delete</button>
+        <a href = "{%url 'mythic:game' game.pk%}">{{game.name}}</a>
+        <button id = "delete-button-{{game.pk}}" class = 'delete-button' value = "{%url 'mythic:delete_game' game.pk%}">Delete</button>
     </li>
     {% endfor %}
 </ul>
 <form action = "" method = "POST" hidden id = "create-new-game-form">
-    <label for = 'new-game-name'>Game name:</label>
-    <input id = 'new-game-name' name ='new-game-name' required> <br>
+    {{new_game_form}}
     <input type="submit" value="Save">
     <input type="button" id = 'cancel-create-new-game' value = "Cancel">
 </form>

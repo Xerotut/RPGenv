@@ -1,6 +1,8 @@
 const formTypeHeader = 'application/x-www-form-urlencoded';
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-export const sendXMLHttpRequest = (method, url, csrfToken, data, contentTypeHeader = formTypeHeader) => {
+
+export const sendXMLHttpRequest = (method, url = window.location.href, data, contentTypeHeader = formTypeHeader) => {
     const promise = new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open(method, url);

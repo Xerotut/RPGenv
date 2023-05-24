@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.core import serializers
 from django.http import JsonResponse, Http404
 from.scripts import serialize_data_to_json
+from .forms import GameForm
 from django.template.response import TemplateResponse
+from django.template.loader import render_to_string
 from .models import Game, MeaningTable, Scene, SceneMessage, Note, List, ListNote
-import json
 from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
@@ -13,31 +13,37 @@ from django.views.decorators.csrf import csrf_protect
 def mythic_games_page(request):
     user = request.user
     if request.method == "POST":
-        name = request.POST.get('new-game-name')
-        new_game = Game(user = user, name = name)
-        new_game.save()
-        game_url = reverse('game', args = new_game.pk)
-        delete_game_url = reverse('delete_game', args = new_game.pk)
-        serialized_game = serializers.serialize('json', [new_game])
-        data = {
-        'game': serialized_game,
-        'game_url': game_url,
-        }
-        return JsonResponse(data)
-    elif request.method == "DELETE":
-        game_id = request.POST.get('game-id')
-        try:
-            game = get_object_or_404(Game, pk = game_id)
-            game.delete()
-            return JsonResponse({'success': True})
-        except Http404:
-            return JsonResponse({'success': False, 'error': 'Game does not exist'})
-
+        form = GameForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            name = form.cleaned_data.get('name')
+            new_game = Game(user = user, name = name)
+            new_game.save()
+            new_game_context = {"game": new_game}
+            html = render_to_string("mythic/game_list_entry_template.html", new_game_context)
+            data = {
+            'html': html,
+            'game_id':new_game.pk,
+            }
+            return JsonResponse(data)
+    form = GameForm()
     games = Game.objects.filter(user=user)
-    context = {'games':games}
+    context = {'games':games, 'new_game_form': form}
     return render(request,'mythic/games_list.html', context)
 
-
+def delete_game(request, game_id):
+    if request.method == "DELETE":
+        user = request.user
+        print(game_id)
+        try:
+            game = get_object_or_404(Game, pk = game_id)
+            if game.user == user:
+                game.delete()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, "error": "You don't have ownership over this game."})
+        except Http404:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
 
 def game_view(request, game_id):
     game = get_object_or_404(Game, pk = game_id)
@@ -104,8 +110,3 @@ def meaning_roll_description(request):
 
 def meaning_roll_element(request, table_id):
  """
-@csrf_protect
-def delete_game(request,game_id):
-    game = get_object_or_404(Game, pk = game_id)
-    game.delete()
-
