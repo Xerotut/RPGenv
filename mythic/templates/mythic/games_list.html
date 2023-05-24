@@ -1,35 +1,26 @@
+{% extends './base_mythic.html' %}
 {%load static%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% csrf_token %}
-</head>
+{% block title %}List of games{% endblock %}
 
-<body>
-    <input type='hidden' , id='get-list_of_games-url' value='{% url 'mythic:get_list_of_games'%}'>
-    <input type = 'hidden', id = 'go-to-game-url' value ='{% url 'mythic:games' 0 %}'>
-    <input type = 'hidden', id = 'delete-game-url' value ='{% url 'mythic:delete_game' 0 %}'>
-    <header>
-        <h1>Games</h1>
-    </header>
-    <ul id = 'list-of-games'>
-    </ul>
-    <form action = {%url 'mythic:get_list_of_games' %} method = "POST" hidden id = "create-new-game-form">
-        {% csrf_token %}
-        <label for = 'new-game-name'>Game name:</label>
-        <input id = 'new-game-name' name ='new-game-name' required> <br>
-        <input type="submit" value="Save">
-        <input type="button" id = 'cancel-create-new-game' value = "Cancel">
-    </form>
-    <button id = 'create-new-game-button'>Create New Game</button>
+{% block content %}
+<header>
+    <h1>Games</h1>
+</header>
+<ul id = 'list-of-games'>
+    {%for game in games%}
+    <li class = "games-list-entry">
+        <a href = "{% url 'mythic:game' {{game.pk}} }">{{game.name}}</a>
+        <button class = 'delete-button' value = "{{game.pk}}">Delete</button>
+    </li>
+    {% endfor %}
+</ul>
+<form action = "" method = "POST" hidden id = "create-new-game-form">
+    <label for = 'new-game-name'>Game name:</label>
+    <input id = 'new-game-name' name ='new-game-name' required> <br>
+    <input type="submit" value="Save">
+    <input type="button" id = 'cancel-create-new-game' value = "Cancel">
+</form>
 
-   
-
-    <script  type="module" src = "{% static 'mythic/js/game-list.js' %}"></script>
-</body>
-
-</html>
+<button id = 'create-new-game-button'>Create New Game</button>
+<script  type="module" src = "{% static 'mythic/js/game-list.js' %}"></script>
+{% endblock %}

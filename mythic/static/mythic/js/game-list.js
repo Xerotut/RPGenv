@@ -1,6 +1,6 @@
 import { sendXMLHttpRequest } from "./xmlhttpresponcewraper.js";
 
-const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 const getListOfGamesURL = document.getElementById('get-list_of_games-url').value;
 const listOfGames = document.getElementById('list-of-games');
 const goToGameURL = document.getElementById('go-to-game-url').value.substring(0, document.getElementById('go-to-game-url').value.length - 2);

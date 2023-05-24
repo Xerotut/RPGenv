@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.core import serializers
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from.scripts import serialize_data_to_json
 from django.template.response import TemplateResponse
 from .models import Game, MeaningTable, Scene, SceneMessage, Note, List, ListNote
@@ -8,22 +9,36 @@ import json
 from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
-
+@csrf_protect
 def mythic_games_page(request):
-    return TemplateResponse(request,'mythic/games_list.html')
-
-
-def show_games_list(request):
+    user = request.user
     if request.method == "POST":
         name = request.POST.get('new-game-name')
-        games_to_serialize = Game(name = name)
-        games_to_serialize.save()
-        serialized_games = serializers.serialize('json', [games_to_serialize])
-    else:
-        games_to_serialize = Game.objects.all()
-        serialized_games = serializers.serialize('json', games_to_serialize)
-    return JsonResponse(serialized_games, safe=False)
-        
+        new_game = Game(user = user, name = name)
+        new_game.save()
+        game_url = reverse('game', args = new_game.pk)
+        delete_game_url = reverse('delete_game', args = new_game.pk)
+        serialized_game = serializers.serialize('json', [new_game])
+        data = {
+        'game': serialized_game,
+        'game_url': game_url,
+        }
+        return JsonResponse(data)
+    elif request.method == "DELETE":
+        game_id = request.POST.get('game-id')
+        try:
+            game = get_object_or_404(Game, pk = game_id)
+            game.delete()
+            return JsonResponse({'success': True})
+        except Http404:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+    games = Game.objects.filter(user=user)
+    context = {'games':games}
+    return render(request,'mythic/games_list.html', context)
+
+
+
 def game_view(request, game_id):
     game = get_object_or_404(Game, pk = game_id)
     meaning_tables = MeaningTable.objects.filter(type = "ELEMENT")
